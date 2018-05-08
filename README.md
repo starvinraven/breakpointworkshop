@@ -1,5 +1,6 @@
 # breakpoint-app
 
+Created using `lein new chestnut app +edge +re-frame +less +http-kit`.
 
 ## Development
 
@@ -14,7 +15,7 @@ In the REPL, type
 ```
 
 The call to `(go)` starts the Figwheel server at port 3449, which takes care of
-live reloading ClojureScript code and CSS, and the app server at port 10555 
+live reloading ClojureScript code and CSS, and the app server at port 10555
 which forwards requests to the http-handler you define.
 
 Running `(cljs-repl)` starts the Figwheel ClojureScript REPL. Evaluating
