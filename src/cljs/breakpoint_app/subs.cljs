@@ -3,6 +3,11 @@
   (:require [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
- :name
+ :images
  (fn [db]
-   (:name db)))
+   (:images db)))
+
+(re-frame/reg-sub
+  :search-input
+  (fn [db]
+    (:search-input db)))

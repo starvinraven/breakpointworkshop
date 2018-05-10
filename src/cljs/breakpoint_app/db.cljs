@@ -1,4 +1,6 @@
 (ns breakpoint-app.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:requests-ongoing 0
+   :images []
+   :search-input ""})

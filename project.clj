@@ -21,7 +21,8 @@
                  [re-frame "0.10.5"]
                  [metosin/compojure-api "1.1.11"]
                  [ring/ring-json "0.4.0"]
-                 [org.clojure/data.json "0.2.6"]]
+                 [org.clojure/data.json "0.2.6"]
+                 [day8.re-frame/http-fx "0.1.6"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-environ "1.1.0"]
@@ -55,7 +56,9 @@
                            :asset-path "js/compiled/out"
                            :output-to "dev-target/public/js/compiled/breakpoint_app.js"
                            :output-dir "dev-target/public/js/compiled/out"
-                           :source-map-timestamp true}}
+                           :source-map-timestamp true
+                           :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true}
+                           :preloads             [day8.re-frame-10x.preload]}}
 
                {:id "test"
                 :source-paths ["src/cljs" "test/cljs" "src/cljc" "test/cljc"]
@@ -112,7 +115,8 @@
                              [com.cemerick/piggieback "0.2.2"]
                              [org.clojure/tools.nrepl "0.2.13"]
                              [lein-doo "0.1.10"]
-                             [reloaded.repl "0.2.4"]]
+                             [reloaded.repl "0.2.4"]
+                             [day8.re-frame/re-frame-10x "0.3.3"]]
 
               :plugins [[lein-figwheel "0.5.16"]
                         [lein-doo "0.1.10"]]
