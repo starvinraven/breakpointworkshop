@@ -15,7 +15,7 @@
                  response
                  (assoc :headers {"Content-Type" "text/html; charset=utf-8"})))
     (api/GET "/api/random" []
-             (ok [(giphy/random)]))
+             (ok (giphy/random)))
     (api/GET "/api/search" []
              :query-params [q :- String]
              (ok (giphy/search q)))

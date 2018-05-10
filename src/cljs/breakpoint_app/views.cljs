@@ -3,7 +3,7 @@
 
 (defn- results-item
   [result]
-  [:img {:src (:image_url result)}])
+  [:img {:src (:url result)}])
 
 (defn- results-box []
   (let [results (re-frame/subscribe [:images])]
@@ -19,7 +19,7 @@
      [:div
       [:input
        {:type "text"
-        :placeholder "This does nothing for now"
+        :placeholder "Continuous search!"
         :value @(re-frame/subscribe [:search-input])
         :on-change #(re-frame/dispatch [:update-search-input (.-value (.-target %))])}]]
      [:div

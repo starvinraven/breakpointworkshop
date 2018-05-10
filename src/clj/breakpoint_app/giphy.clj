@@ -21,18 +21,30 @@
      endpoint
      (map->params (merge
                     params-map
-                    {:apikey (:giphy-api-key (config))}))))
+                    {:limit 5
+                     :apikey (:giphy-api-key (config))}))))
   ([endpoint]
    (query-url
      endpoint
      {})))
 
+(defn- parse-image
+  [datum]
+  {:title (:title datum)
+   :id (:id datum)
+   :url (-> datum :images :fixed_width :url)})
+
 (defn- parse-data
   [response]
-  (-> @response
-      :body
-      (json/read-str :key-fn keyword)
-      :data))
+  (let [json (-> @response
+                 :body
+                 (json/read-str :key-fn keyword)
+                 :data)]
+    (map
+      parse-image
+      (if (sequential? json)
+        json
+        [json]))))
 
 (defn search
   [query-text]
