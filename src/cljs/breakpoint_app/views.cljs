@@ -3,7 +3,9 @@
 
 (defn- results-item
   [result]
-  [:img {:src (:url result)}])
+  (println "render" (:url result))
+  [:div.results-item
+   [:img {:src (:url result)}]])
 
 (defn- results-box []
   (let [results (re-frame/subscribe [:images])]
@@ -16,14 +18,14 @@
   (fn []
     [:div.main
      [:h1 "Breakpoint Giphy"]
-     [:div
-      [:input
+     [:div.input-container
+      [:input.search-input
        {:type "text"
         :placeholder "Continuous search!"
         :value @(re-frame/subscribe [:search-input])
         :on-change #(re-frame/dispatch [:update-search-input (.-value (.-target %))])}]]
-     [:div
-      [:button
+     [:div.input-container
+      [:button.random-button
        {:on-click #(re-frame/dispatch [:load-random-giphy])}
        "Load random!"]]
      [results-box]]))
