@@ -9,6 +9,11 @@
  (fn  [_ _]
    db/default-db))
 
+(reg-event-db
+  :clear-list
+  (fn [db _]
+    (assoc db :images [])))
+
 (reg-event-fx
   :load-random-giphy
   (fn [{:keys [db]} _]
@@ -61,6 +66,11 @@
   (fn [db [_ id]]
     (update db :images (fn [images]
                          (remove #(= (:id %) id) images)))))
+
+(reg-event-db
+  :add-to-saved
+  (fn [db [_ image]]
+    (update db :saved-images conj image)))
 
 (defonce debounces (atom {}))
 
