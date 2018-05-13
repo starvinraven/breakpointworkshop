@@ -1,14 +1,19 @@
 (ns breakpoint-app.views
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :refer [subscribe dispatch]]))
 
-(defn- results-item
-  [result]
-  (println "render" (:url result))
+(defn- results-item [result]
   [:div.results-item
+   [:div.results-item-header
+    [:i.medium.material-icons.remove-button
+     {:on-click #(dispatch [:remove-from-list (:id result)])}
+     "cancel"]
+    [:i.medium.material-icons.add-to-list-button
+     {:on-click #(dispatch [:add-to-saved (:id result)])}
+     "add_circle"]]
    [:img {:src (:url result)}]])
 
 (defn- results-box []
-  (let [results (re-frame/subscribe [:images])]
+  (let [results (subscribe [:images])]
     (fn []
       (into
         [:div.results-box]
@@ -22,10 +27,10 @@
       [:input.search-input
        {:type "text"
         :placeholder "Continuous search!"
-        :value @(re-frame/subscribe [:search-input])
-        :on-change #(re-frame/dispatch [:update-search-input (.-value (.-target %))])}]]
+        :value @(subscribe [:search-input])
+        :on-change #(dispatch [:update-search-input (.-value (.-target %))])}]]
      [:div.input-container
       [:button.random-button
-       {:on-click #(re-frame/dispatch [:load-random-giphy])}
+       {:on-click #(dispatch [:load-random-giphy])}
        "Load random!"]]
      [results-box]]))

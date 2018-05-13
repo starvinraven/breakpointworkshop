@@ -56,6 +56,12 @@
                           :timeout 500
                           :dispatch [:search-giphy value]}}))
 
+(reg-event-db
+  :remove-from-list
+  (fn [db [_ id]]
+    (update db :images (fn [images]
+                         (remove #(= (:id %) id) images)))))
+
 (defonce debounces (atom {}))
 
 (re-frame/reg-fx
