@@ -1,7 +1,8 @@
 (ns breakpoint-app.giphy
   (:require [org.httpkit.client :as http]
             [breakpoint-app.config :refer [config]]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [ring.util.codec :as codec]))
 
 (defn map->params
   [m]
@@ -9,13 +10,12 @@
                (str
                  acc
                  (if (clojure.string/blank? acc) "?" "&")
-                 (name k) "=" v))
+                 (name k) "=" (codec/url-encode v)))
              ""
              m))
 
 (defn query-url
   ([endpoint params-map]
-   (println "querying" endpoint params-map)
    (str
      "https://api.giphy.com/v1/gifs/"
      endpoint

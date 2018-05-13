@@ -9,6 +9,8 @@
                  [com.cognitect/transit-clj "0.8.309"]
                  [ring "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
+                 [ring/ring-codec "1.1.1"]
+                 [ring/ring-json "0.4.0"]
                  [bk/ring-gzip "0.3.0"]
                  [radicalzephyr/ring.middleware.logger "0.6.0"]
                  [clj-logging-config "1.9.12"]
@@ -20,7 +22,6 @@
                  [http-kit "2.3.0"]
                  [re-frame "0.10.5"]
                  [metosin/compojure-api "1.1.11"]
-                 [ring/ring-json "0.4.0"]
                  [org.clojure/data.json "0.2.6"]
                  [day8.re-frame/http-fx "0.1.6"]]
 
