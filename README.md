@@ -2,6 +2,14 @@
 
 Created using `lein new chestnut app +edge +re-frame +less +http-kit`.
 
+Quick run instructions:
+
+* `lein repl`
+* `(go)`
+* `(cljs-repl)` (for the clojurescript repl; exit to clj repl with `:cljs/quit`)
+* You should add the Giphy API key to `breakpoint-app.config/giphy-api-key` with the repl or in the source code.
+* Auto-reload works for most things, but you need to explicitly `(reload)` in the clj repl after changing routes.clj.
+
 ## Exercises
 
 ### Ex. 1: Wire up the 'random' button
@@ -10,9 +18,9 @@ This should give you an idea how the unidirectional data flow in Re-frame works.
 
 * You have a working API endpoint at /api/random (see routes.clj), assuming you have input an API key.
 * In views.cljs, make the button do something:
-  * You have a working effectful event handler with the keyword `:load-random-giphy`. This will fetch a random result for you from the above backend endpoint.
-  * The result will be passed to the pure event handler with the keyword `:add-images`. Implement it to add the images to the app-db!
-* To get the images from your app-db to the view components, you must first register a subscription. Do this in subs.cljs: make the `:images` subscription return the images you just added to the app-db.
+  * You have a working effectful event handler with the keyword `:load-random-giphy` in events.cljs. This will fetch a random result for you from the above backend endpoint. `dispatch` it when the button is clicked! (see `re-frame.core/dispatch`)
+  * The fetched result will be passed to the pure event handler with the keyword `:add-images`, also in events.cljs. Implement it to add the images to the app-db!
+* To get the images from your app-db to the view components, you must first register a subscription. Do this in subs.cljs: make the `:images` subscription return the list of images you just made appear in app-db. (see `re-frame.core/subscribe`)
 * In views.cljs you need to implement the `results-box` component:
   * Subscribe to the subscription you just created above using the `subscribe` function. This should go in a let binding outside the render function that the results-box function returns.
   * You can map the results to view components using the `results-item` function (these should go into the results-box div).
