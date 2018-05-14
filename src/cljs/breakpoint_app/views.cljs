@@ -9,7 +9,7 @@
      "cancel"]
     (when-not @(subscribe [:image-saved? (:id image)])
       [:i.medium.material-icons.add-to-list-button
-       {:on-click #(dispatch [:add-to-saved image])}
+       {:on-click #(dispatch [:add-to-saved [image]])}
        "add_circle"])]
    [:img {:src (:url image)}]])
 
@@ -32,8 +32,12 @@
         [:div.saved-images
          [:h2 "Your saved images:"]
          (into
-           [:ul.results-box]
-           (map saved-item @saved-images))]))))
+           [:div.results-box]
+           (map saved-item @saved-images))
+         [:div.input-container
+          [:button.store-button
+           {:on-click #(dispatch [:store-saved])}
+           "Store saved!"]]]))))
 
 (defn main-panel []
   (fn []

@@ -21,5 +21,6 @@
 (defn render []
   (re-frame/dispatch-sync [:initialize-db])
   (re-frame/dispatch [:load-random-giphy])
+  (re-frame/dispatch [:load-stored])
   (dev-setup)
   (mount-root))

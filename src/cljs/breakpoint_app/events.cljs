@@ -69,8 +69,35 @@
 
 (reg-event-db
   :add-to-saved
-  (fn [db [_ image]]
-    (update db :saved-images conj image)))
+  (fn [db [_ images]]
+    (update db :saved-images into images)))
+
+(reg-event-fx
+  :load-stored
+  (fn [{:keys [db]} _]
+    {:db (update db :requests-ongoing inc)
+     :http-xhrio {:method          :get
+                  :uri             "/api/stored"
+                  :response-format (ajax/json-response-format {:keywords? true})
+                  :on-success      [:add-to-saved]
+                  :on-failure      [:handle-giphy-error]}}))
+
+(reg-event-fx
+  :store-saved
+  (fn [{:keys [db]} _]
+    {:db (update db :requests-ongoing inc)
+     :http-xhrio {:method          :put
+                  :uri             "/api/stored"
+                  :params          (:saved-images db)
+                  :format          (ajax/json-request-format)
+                  :response-format (ajax/json-response-format {:keywords? true})
+                  :on-success      [:store-success]
+                  :on-failure      [:handle-giphy-error]}}))
+
+(reg-event-db
+  :store-success
+  (fn [db _]
+    (update db :requests-ongoing dec)))
 
 (defonce debounces (atom {}))
 
