@@ -7,8 +7,6 @@
             [breakpoint-app.giphy :as giphy]
             [breakpoint-app.schema :as schema]))
 
-(defonce fake-db (atom {:saved-images []}))
-
 (defn home-routes [endpoint]
   (api/api
     (api/GET "/" []
@@ -17,19 +15,9 @@
                  io/input-stream
                  response
                  (assoc :headers {"Content-Type" "text/html; charset=utf-8"})))
+
     (api/GET "/api/random" []
              :return [schema/image]
              (ok (giphy/random)))
-    (api/GET "/api/search" []
-             :query-params [q :- String]
-             :return [schema/image]
-             (ok (giphy/search q)))
-    (api/GET "/api/stored" []
-             :return [schema/image]
-             (do
-               (println "load stored" @fake-db)
-               (ok (:saved-images @fake-db))))
-    (api/PUT "/api/stored" []
-             :body [images [schema/image]]
-             (swap! fake-db assoc :saved-images images))
+
     (resources "/")))

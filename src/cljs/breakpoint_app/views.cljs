@@ -5,39 +5,16 @@
   [:div.results-item
    [:div.results-item-header
     [:i.medium.material-icons.remove-button
-     {:on-click #(dispatch [:remove-from-list (:id image)])}
+     {:on-click #(println "remove")}
      "cancel"]
-    (when-not @(subscribe [:image-saved? (:id image)])
-      [:i.medium.material-icons.add-to-list-button
-       {:on-click #(dispatch [:add-to-saved [image]])}
-       "add_circle"])]
+    [:i.medium.material-icons.add-to-list-button
+     {:on-click #(println "save")}
+     "add_circle"]]
    [:img {:src (:url image)}]])
-
 
 (defn- results-box []
-  (let [results (subscribe [:images])]
-    (fn []
-      (into
-        [:div.results-box]
-        (map results-item @results)))))
-
-(defn- saved-item [image]
-  [:div.results-item
-   [:img {:src (:url image)}]])
-
-(defn- saved-box []
-  (let [saved-images (subscribe [:saved-images])]
-    (fn []
-      (when (not-empty @saved-images)
-        [:div.saved-images
-         [:h2 "Your saved images:"]
-         (into
-           [:div.results-box]
-           (map saved-item @saved-images))
-         [:div.input-container
-          [:button.store-button
-           {:on-click #(dispatch [:store-saved])}
-           "Store saved!"]]]))))
+  (fn []
+    [:div.results-box]))
 
 (defn main-panel []
   (fn []
@@ -46,15 +23,11 @@
      [:div.input-container
       [:input.search-input
        {:type "text"
-        :placeholder "Continuous search!"
-        :value @(subscribe [:search-input])
-        :on-change #(dispatch [:update-search-input (.-value (.-target %))])}]]
+        :placeholder "This does nothing for now :("
+        :value ""
+        :on-change #(println "text input value" (.-value (.-target %)))}]]
      [:div.input-container
       [:button.random-button
-       {:on-click #(dispatch [:clear-list])}
-       "Clear!"]
-      [:button.random-button
-       {:on-click #(dispatch [:load-random-giphy])}
+       {:on-click #(println "click!")}
        "Load random!"]]
-     [results-box]
-     [saved-box]]))
+     [results-box]]))

@@ -6,7 +6,7 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.json :refer [wrap-json-response]]))
 
-(def giphy-api-key) ; you can set this in the REPL
+(def giphy-api-key "90hf06rVU0a9w2ykTLwXCbWt8OPVVYn3") ; you can set this in the REPL
 
 (defn config []
   {:http-port  (Integer. (or (env :port) 10555))

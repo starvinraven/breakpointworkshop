@@ -9,95 +9,19 @@
  (fn  [_ _]
    db/default-db))
 
-(reg-event-db
-  :clear-list
-  (fn [db _]
-    (assoc db :images [])))
-
 (reg-event-fx
   :load-random-giphy
   (fn [{:keys [db]} _]
-    {:db   (update db :requests-ongoing inc)
-     :http-xhrio {:method          :get
+    {:http-xhrio {:method          :get
                   :uri             "/api/random"
                   :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:add-images]
-                  :on-failure      [:handle-giphy-error]}}))
-
-(reg-event-fx
-  :search-giphy
-  (fn [{:keys [db]} [_ query]]
-    {:db (update db :requests-ongoing inc)
-     :http-xhrio {:method :get
-                  :uri (str "/api/search?q=" query)
-                  :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:replace-images]
-                  :on-failure      [:handle-giphy-error]}}))
+                  :on-success      [:add-images]}}))
 
 (reg-event-db
   :add-images
   (fn [db [_ response]]
-    (-> db
-        (update :requests-ongoing dec)
-        (update :images into response))))
-
-(reg-event-db
-  :replace-images
-  (fn [db [_ response]]
-    (-> db
-        (update :requests-ongoing dec)
-        (assoc :images response))))
-
-(reg-event-db
-  :handle-giphy-error
-  (fn [db _]
-    (update db :requests-ongoing dec)))
-
-(reg-event-fx
-  :update-search-input
-  (fn [{:keys [db]} [_ value]]
-    {:db (assoc db :search-input value)
-     :dispatch-debounced {:id :search
-                          :timeout 500
-                          :dispatch [:search-giphy value]}}))
-
-(reg-event-db
-  :remove-from-list
-  (fn [db [_ id]]
-    (update db :images (fn [images]
-                         (remove #(= (:id %) id) images)))))
-
-(reg-event-db
-  :add-to-saved
-  (fn [db [_ images]]
-    (update db :saved-images into images)))
-
-(reg-event-fx
-  :load-stored
-  (fn [{:keys [db]} _]
-    {:db (update db :requests-ongoing inc)
-     :http-xhrio {:method          :get
-                  :uri             "/api/stored"
-                  :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:add-to-saved]
-                  :on-failure      [:handle-giphy-error]}}))
-
-(reg-event-fx
-  :store-saved
-  (fn [{:keys [db]} _]
-    {:db (update db :requests-ongoing inc)
-     :http-xhrio {:method          :put
-                  :uri             "/api/stored"
-                  :params          (:saved-images db)
-                  :format          (ajax/json-request-format)
-                  :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:store-success]
-                  :on-failure      [:handle-giphy-error]}}))
-
-(reg-event-db
-  :store-success
-  (fn [db _]
-    (update db :requests-ongoing dec)))
+    ; the list of images goes in the database map under the key :images (see db.cljs).
+    ))
 
 (defonce debounces (atom {}))
 

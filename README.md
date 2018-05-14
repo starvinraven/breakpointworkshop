@@ -2,6 +2,47 @@
 
 Created using `lein new chestnut app +edge +re-frame +less +http-kit`.
 
+## Exercises
+
+### Ex. 1: Wire up the 'random' button
+
+This should give you an idea how the unidirectional data flow in Re-frame works.
+
+* You have a working API endpoint at /api/random (see routes.clj), assuming you have input an API key.
+* In views.cljs, make the button do something:
+  * You have a working effectful event handler with the keyword `:load-random-giphy`. This will fetch a random result for you from the above backend endpoint.
+  * The result will be passed to the pure event handler with the keyword `:add-images`. Implement it to add the images to the app-db!
+* To get the images from your app-db to the view components, you must first register a subscription. Do this in subs.cljs: make the `:images` subscription return the images you just added to the app-db.
+* In views.cljs you need to implement the `results-box` component:
+  * Subscribe to the subscription you just created above using the `subscribe` function. This should go in a let binding outside the render function that the results-box function returns.
+  * You can map the results to view components using the `results-item` function (these should go into the results-box div).
+
+### Ex. 2: Create a 'clear all' button
+
+You just need to replace the `:images` entry in the app-db using the same principles as in ex. 1, but this time it's all pure front-end code. Start by adding your own button by copy-pasting the 'random' button container...
+
+### Ex. 3: Text search
+
+You will need to do the full end-to-end implementation for this feature:
+
+* In giphy.clj, implement the Giphy API call in the `search` function in a similar manner to the `random` function. Note that the `query-url` function can take two parameters, the first being the service name ("search"), and the second a map of the parameters (the key is "q" and the value the search terms). `parse-data` takes care of formatting the response and extracting the interesting bits of data.
+* In routes.clj, add an endpoint that calls the search function above, not unlike the `random` endpoint. This time you will have to pass parameters, though.
+* In views.clj, implement the `on-change` function for the text input.
+  * Optimally, this should call a handler that sets the query string in the app-db; and dispatch another handler to perform the API query after a quiet period of no further typing in the text field. We have registered a `:dispatch-debounced` effects handler to this end in events.cljs.
+  * The results from the query should be updated (added or replaced to the images list) as before. You got this.
+
+### Ex. 4: Implement the 'remove' button functionality
+
+The remove button should clear a single image from the list. It's probably easiest to do this using the `:id` key for each image and use `remove` on the images in app-db.
+
+### Ex. 5: Implement the 'add to favorites' button
+
+Create a new view component on the page that holds all images that are added to favorites.
+
+### Ex. 6: Persist the favorites list in the backend; show them on page load
+
+This entails creating endpoints for storing and loading the favorites list. You can use `defonce` to create a simple `atom` as your backend database.
+
 ## Development
 
 Open a terminal and type `lein repl` to start a Clojure REPL

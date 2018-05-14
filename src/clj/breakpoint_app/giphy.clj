@@ -48,9 +48,8 @@
 
 (defn search
   [query-text]
-  (-> (query-url "search" {:q query-text})
-      (http/get)
-      (parse-data)))
+  [] ; TODO!
+  )
 
 (defn random
   []

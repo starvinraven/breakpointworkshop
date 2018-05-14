@@ -5,22 +5,5 @@
 (re-frame/reg-sub
  :images
  (fn [db]
-   (:images db)))
-
-(re-frame/reg-sub
-  :search-input
-  (fn [db]
-    (:search-input db)))
-
-(re-frame/reg-sub
-  :saved-images
-  :saved-images)
-
-(re-frame/reg-sub
-  :image-saved?
-  (fn [db [_ id]]
-    (->> db
-        :saved-images
-        (filter #(= (:id %) id))
-        (not-empty)
-        (boolean))))
+   [] ; this should return something instead
+   ))
