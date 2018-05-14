@@ -119,7 +119,8 @@
                              [reloaded.repl "0.2.4"]
                              [day8.re-frame/re-frame-10x "0.3.3"]]
 
-              :plugins [[lein-figwheel "0.5.16"]
+              :plugins [[lein-auto "0.1.3"]
+                        [lein-figwheel "0.5.16"]
                         [lein-doo "0.1.10"]]
 
               :source-paths ["dev"]
