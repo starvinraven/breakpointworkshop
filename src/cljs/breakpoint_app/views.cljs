@@ -37,4 +37,6 @@
         {:on-click #(println "click!")}
         "Load random!"]]
       [results-box]]
-     [aw/animation-header :footer]]))
+     [aw/animation-header :footer]
+     [:div.animation-toggle-container
+      [aw/animation-toggle]]]))

@@ -116,10 +116,11 @@ button {
 
 .main-wrapper {
   width: 800px;
-  margin: 75px auto 0;
+  margin: 75px auto;
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
+  position: relative;
 }
 
 .cutout-header-container {
@@ -143,52 +144,64 @@ button {
   transition-property: transform;
 }
 
-.pixel-cutout--0-true {
+.pixel-cutout--0-left {
   transform: scaleY(.25)
 }
 
-.pixel-cutout--1-false {
+.pixel-cutout--1-right {
   transition-delay: .1s;
 }
 
-.pixel-cutout--1-true {
+.pixel-cutout--1-left {
   transform: scaleY(.5);
   transition-delay: .1s;
 }
 
-.pixel-cutout--2-false {
+.pixel-cutout--2-right {
   transition-delay: .2s;
 }
 
-.pixel-cutout--2-true {
+.pixel-cutout--2-left {
   transform: scaleY(.75);
   transition-delay: .2s;
 }
 
-.pixel-cutout--5-true {
+.pixel-cutout--5-left {
   transition-delay: .3s;
 }
 
-.pixel-cutout--5-false {
+.pixel-cutout--5-right {
   transition-delay: .3s;
   transform: scaleY(.75);
 }
 
-.pixel-cutout--6-true {
+.pixel-cutout--6-left {
   transition-delay: .4s;
 }
 
-.pixel-cutout--6-false {
+.pixel-cutout--6-right {
   transition-delay: .4s;
   transform: scaleY(.5);
 }
 
-.pixel-cutout--7-true {
+.pixel-cutout--7-left {
   transition-delay: .5s;
 }
 
-.pixel-cutout--7-false {
+.pixel-cutout--7-right {
   transform: scaleY(.25);
   transition-delay: .5s;
+}
+
+.animation-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: -31px;
+  right: 14px;
+}
+
+.animation-toggle {
+  width: auto;
 }
 
