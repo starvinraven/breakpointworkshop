@@ -8,7 +8,7 @@ Quick run instructions:
 * `(go)`
 * `(cljs-repl)` (for the clojurescript repl; exit to clj repl with `:cljs/quit`)
 * You should add the Giphy API key to `breakpoint-app.config/giphy-api-key` with the repl or in the source code.
-* Auto-reload works for most things, but you need to explicitly `(reload)` in the clj repl after changing routes.clj.
+* Auto-reload works for most things, but you need to explicitly `(reset)` in the clj repl after changing routes.clj.
 
 ## Exercises
 
