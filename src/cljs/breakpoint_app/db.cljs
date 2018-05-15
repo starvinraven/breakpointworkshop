@@ -4,4 +4,5 @@
   {:requests-ongoing 0
    :images []
    :saved-images []
-   :search-input ""})
+   :search-input ""
+   :animation-state false})
