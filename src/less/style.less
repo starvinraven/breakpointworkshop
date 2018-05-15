@@ -12,6 +12,7 @@
 
 @color-white: #FFF;
 @color-background: #0DABFF;
+@color-button-background: #FF4AB5;
 
 html {
   box-sizing: border-box;
@@ -38,6 +39,15 @@ h2 {
   color: @color-white;
 }
 
+button {
+  background-color: @color-button-background;
+  color: @color-white;
+  border: 1px outset @color-button-background;
+  font-size: 20px;
+  padding: 12px 15px 13px;
+  box-shadow: 5px 5px 0 0 hsla(0,0%,7%,.3);
+}
+
 .input-container {
   margin: 10px auto;
 
@@ -49,18 +59,6 @@ h2 {
     height: 40px;
     width: 300px;
     font-size: 20px;
-    border-radius: 10px;
-  }
-
-  button {
-    border-radius: 10px;
-    font-size: 20px;
-    padding: 5px 20px;
-    color: @color-complement-0;
-
-    &:hover {
-
-    }
   }
 }
 
