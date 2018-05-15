@@ -1,10 +1,13 @@
 (ns breakpoint-app.animation.animation-views
   (:require [re-frame.core :as re-frame]))
 
-(defn animation-header []
+(defn animation-header [type]
   (let [animation-state (re-frame/subscribe [:animation/animation-state])]
     (fn []
-      [:div.cutout-container
+      [:div
+       {:class (if (= type :header)
+                 "cutout-header-container"
+                 "cutout-footer-container")}
        (->> (range 8)
             (map (fn [idx]
                    [:div.pixel-cutout

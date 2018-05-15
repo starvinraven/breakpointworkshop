@@ -23,7 +23,7 @@
 (defn main-panel []
   (fn []
     [:div.main-wrapper
-     [aw/animation-header]
+     [aw/animation-header :header]
      [:div.main
       [:h1 "Breakpoint Giphy"]
       [:div.input-container
@@ -36,4 +36,5 @@
        [:button.random-button
         {:on-click #(println "click!")}
         "Load random!"]]
-      [results-box]]]))
+      [results-box]]
+     [aw/animation-header :footer]]))
