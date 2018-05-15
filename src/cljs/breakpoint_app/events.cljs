@@ -6,7 +6,7 @@
 
 (reg-event-db
  :initialize-db
- (fn  [_ _]
+ (fn [_ _]
    db/default-db))
 
 (reg-event-fx
@@ -15,13 +15,14 @@
     {:http-xhrio {:method          :get
                   :uri             "/api/random"
                   :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:add-images]}}))
+                  :on-success      [:add-images]}
+     :db         db}))
 
 (reg-event-db
   :add-images
   (fn [db [_ response]]
     ; the list of images goes in the database map under the key :images (see db.cljs).
-    ))
+    db))
 
 (defonce debounces (atom {}))
 

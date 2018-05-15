@@ -5,4 +5,5 @@
    :images []
    :saved-images []
    :search-input ""
-   :animation-state false})
+   :animation/tilt-direction :left
+   :animation/enabled? true})
