@@ -10,6 +10,9 @@
 @color-complement-3: #005300;
 @color-complement-4: #021602;
 
+@color-white: #FFF;
+@color-background: #0DABFF;
+
 html {
   box-sizing: border-box;
 }
@@ -20,19 +23,19 @@ html {
 }
 
 body {
-  background-color: @color-primary-1;
+  background-image: url("/images/breakpoint-background.png");
 }
 
 h1 {
   text-align: center;
   font-size: 50px;
-  color: @color-complement-2;
+  color: @color-white;
 }
 
 h2 {
   text-align: center;
   font-size: 35px;
-  color: @color-complement-2;
+  color: @color-white;
 }
 
 .input-container {
@@ -62,9 +65,7 @@ h2 {
 }
 
 .main {
-  width: 800px;
-  margin: 0 auto;
-  height: 100%;
+  background-color: @color-background;
   display: flex;
   flex-direction: column;
 }
@@ -113,5 +114,83 @@ h2 {
 .saved-images {
   display: flex;
   flex-direction: column
+}
+
+.main-wrapper {
+  width: 800px;
+  margin: 75px auto 0;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.cutout-header-container {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.cutout-footer-container {
+  display: flex;
+  flex-flow: row nowrap;
+  transform: rotate(180deg);
+}
+
+.pixel-cutout {
+  background-color: @color-background;
+  height: 120px;
+  width: 800px / 8;
+  transform-origin: 0 120px;
+  transition-duration: .5s;
+  transition-timing-function: ease;
+  transition-property: transform;
+}
+
+.pixel-cutout--0-true {
+  transform: scaleY(.25)
+}
+
+.pixel-cutout--1-false {
+  transition-delay: .1s;
+}
+
+.pixel-cutout--1-true {
+  transform: scaleY(.5);
+  transition-delay: .1s;
+}
+
+.pixel-cutout--2-false {
+  transition-delay: .2s;
+}
+
+.pixel-cutout--2-true {
+  transform: scaleY(.75);
+  transition-delay: .2s;
+}
+
+.pixel-cutout--5-true {
+  transition-delay: .3s;
+}
+
+.pixel-cutout--5-false {
+  transition-delay: .3s;
+  transform: scaleY(.75);
+}
+
+.pixel-cutout--6-true {
+  transition-delay: .4s;
+}
+
+.pixel-cutout--6-false {
+  transition-delay: .4s;
+  transform: scaleY(.5);
+}
+
+.pixel-cutout--7-true {
+  transition-delay: .5s;
+}
+
+.pixel-cutout--7-false {
+  transform: scaleY(.25);
+  transition-delay: .5s;
 }
 

@@ -24,7 +24,8 @@
                  [metosin/compojure-api "1.1.11"]
                  [org.clojure/data.json "0.2.6"]
                  [day8.re-frame/http-fx "0.1.6"]
-                 [prismatic/schema "1.1.9"]]
+                 [prismatic/schema "1.1.9"]
+                 [org.clojure/core.async "0.4.474"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-environ "1.1.0"]

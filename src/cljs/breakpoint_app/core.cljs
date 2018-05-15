@@ -4,7 +4,9 @@
             [breakpoint-app.events]
             [breakpoint-app.subs]
             [breakpoint-app.views :as views]
-            [breakpoint-app.config :as config]))
+            [breakpoint-app.config :as config]
+            [breakpoint-app.animation.animation-events]
+            [breakpoint-app.animation.animation-subs]))
 
 (enable-console-print!)
 
