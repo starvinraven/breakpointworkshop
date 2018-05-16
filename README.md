@@ -10,46 +10,20 @@ Quick run instructions:
 * You should add the Giphy API key to `breakpoint-app.config/giphy-api-key` with the repl or in the source code.
 * Auto-reload works for most things, but you need to explicitly `(reset)` in the clj repl after changing routes.clj.
 
-## Exercises
+## Examples / Exercises
 
-### Ex. 1: Wire up the 'random' button
+### Example 1: Toggle the animation on/off with a button click
 
-This should give you an idea how the unidirectional data flow in Re-frame works.
+### Exercise 1: Toggle the background color with a button click
 
-* You have a working API endpoint at /api/random (see routes.clj), assuming you have input an API key.
-* In views.cljs, make the button do something:
-  * You have a working effectful event handler with the keyword `:load-random-giphy` in events.cljs. This will fetch a random result for you from the above backend endpoint. `dispatch` it when the button is clicked! (see `re-frame.core/dispatch`)
-  * The fetched result will be passed to the pure event handler with the keyword `:add-images`, also in events.cljs. Implement it to add the images to the app-db!
-* To get the images from your app-db to the view components, you must first register a subscription. Do this in subs.cljs: make the `:images` subscription return the list of images you just made appear in app-db. (see `re-frame.core/subscribe`)
-* In views.cljs you need to implement the `results-box` component:
-  * Subscribe to the subscription you just created above using the `subscribe` function. This should go in a let binding outside the render function that the results-box function returns.
-  * You can map the results to view components using the `results-item` function (these should go into the results-box div).
+This should give you an idea of how the unidirectional data flow in re-frame works.
 
-### Ex. 2: Create a 'clear all' button
-
-You just need to replace the `:images` entry in the app-db using the same principles as in ex. 1, but this time it's all pure front-end code. Start by adding your own button by copy-pasting the 'random' button container...
-
-### Ex. 3: Text search
-
-You will need to do the full end-to-end implementation for this feature:
-
-* In giphy.clj, implement the Giphy API call in the `search` function in a similar manner to the `random` function. Note that the `query-url` function can take two parameters, the first being the service name ("search"), and the second a map of the parameters (the key is "q" and the value the search terms). `parse-data` takes care of formatting the response and extracting the interesting bits of data.
-* In routes.clj, add an endpoint that calls the search function above, not unlike the `random` endpoint. This time you will have to pass parameters, though.
-* In views.clj, implement the `on-change` function for the text input.
-  * Optimally, this should call a handler that sets the query string in the app-db; and dispatch another handler to perform the API query after a quiet period of no further typing in the text field. We have registered a `:dispatch-debounced` effects handler to this end in events.cljs.
-  * The results from the query should be updated (added or replaced to the images list) as before. You got this.
-
-### Ex. 4: Implement the 'remove' button functionality
-
-The remove button should clear a single image from the list. It's probably easiest to do this using the `:id` key for each image and use `remove` on the images in app-db.
-
-### Ex. 5: Implement the 'add to favorites' button
-
-Create a new view component on the page that holds all images that are added to favorites.
-
-### Ex. 6: Persist the favorites list in the backend; show them on page load
-
-This entails creating endpoints for storing and loading the favorites list. You can use `defonce` to create a simple `atom` as your backend database.
+* Start off by creating a new button. You can simply copy-paste the `animation-toggle` function to some other name, like `color-change` (you'll also want to change the text). To include the component in the page, you will also need to include it in the `main-panel` just like the existing `[animation-toggle]`, maybe right after it.
+* Now, we need to use the button to dispatch an event that sets the application state's background color property to a desired value. To do this, we will use the `re-frame.core/dispatch` function in the button's on-click handler. The dispatch function will take a vector parameter which will contain a keyword as the event's name, and possibly some parameters after that. A example function that performs a dispatch: `#(dispatch [:color-event :black])`.
+* Next, we should handle the event that we dispatch when the button is clicked. This is done in events.cljs, where we will create the event handler using `re-frame.core/reg-event-db`. This function is used to register a pure function that will update our application state. The parameters for the `reg-event-db` function are the event's name (a keyword) and the handler function. The function will receive as parameters the current app state, `db`, and a vector that holds the event name, and any possible parameters passed - in other words, the parameter given to the dispatch function. The function should return the updated application state. The event registration will look like: `(reg-event-db :color-event (fn [db [_ color]] (assoc db :background-color color))))`. This will set the `db` map's entry with the key `:background-color` to the value given.
+* In order to refer to the app-db, and the color value therein, we must create a subscription. Subscriptions are used to access the app-db and their values will change whenever the app-db does. We will add a subscription in subs.cljs using the `re-frame.core/reg-sub` function. The usage looks much like `reg-event-db`: the parameters are the subscription's name (a keyword) and a function that receives the app-db map and should return data that is derived from the app-db. In our case, we just need to access the map value we just added: `(reg-sub :background-color (fn [db] (:background-color db)))`.
+* Now we have access to the color, and just need to use it in our view. We have the necessary styles in place, so we can just set the `.black-background` style to the `.main-wrapper` div. To subscribe to the subscription created above, use the `re-frame.core/subscribe` function, providing the subscription name as a parameter. It will return the subscription, but you will need to dereference the subscription to get the contained value: `@(subscribe [:background-color])`. To put it all together, add a properties map to the `.main-wrapper` div (as its first element), and use the subscription: `{:class (when (= @(subscribe [:background-color]) :black) "black-background")}`.
+* This will only allow you to set the background to black! How about making the button a toggle, or adding another button for the sky blue background?
 
 ## Development
 

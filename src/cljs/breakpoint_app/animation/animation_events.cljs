@@ -3,10 +3,12 @@
 
 (re-frame/reg-event-db :animation/toggle-animation-state
   (fn [db]
-    (update db :animation/tilt-direction (fn [previous-direction]
-                                           (case previous-direction
-                                             :left :right
-                                             :right :left)))))
+    (if (:animation/enabled? db)
+      (update db :animation/tilt-direction (fn [previous-direction]
+                                             (case previous-direction
+                                               :left :right
+                                               :right :left)))
+      db)))
 
 (re-frame/reg-event-db :animation/toggle-animation
   (fn [db]

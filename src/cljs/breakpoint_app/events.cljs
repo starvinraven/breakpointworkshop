@@ -9,29 +9,27 @@
  (fn [_ _]
    db/default-db))
 
-(reg-event-fx
-  :load-random-giphy
-  (fn [{:keys [db]} _]
-    {:http-xhrio {:method          :get
-                  :uri             "/api/random"
-                  :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:add-images]}
-     :db         db}))
-
 (reg-event-db
-  :add-images
-  (fn [db [_ response]]
-    ; the list of images goes in the database map under the key :images (see db.cljs).
-    db))
+  :color-event
+  (fn [db [_ color]]
+    (assoc db :background-color color)))
 
-(defonce debounces (atom {}))
+;; (reg-event-fx
+;;   :load-random-giphy
+;;   (fn [{:keys [db]} _]
+;;     {:http-xhrio {:method          :get
+;;                   :uri             "/api/random"
+;;                   :response-format (ajax/json-response-format {:keywords? true})
+;;                   :on-success      [:add-images]}
+;;      :db         db}))
 
-(re-frame/reg-fx
-  :dispatch-debounced
-  (fn [{:keys [id dispatch timeout]}]
-    (js/clearTimeout (@debounces id))
-    (swap! debounces assoc id (js/setTimeout
-                                (fn []
-                                  (re-frame/dispatch dispatch)
-                                  (swap! debounces dissoc id))
-                                timeout))))
+;; (defonce debounces (atom {}))
+;; (re-frame/reg-fx
+;;   :dispatch-debounced
+;;   (fn [{:keys [id dispatch timeout]}]
+;;     (js/clearTimeout (@debounces id))
+;;     (swap! debounces assoc id (js/setTimeout
+;;                                 (fn []
+;;                                   (re-frame/dispatch dispatch)
+;;                                   (swap! debounces dissoc id))
+;;                                 timeout))))

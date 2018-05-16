@@ -18,11 +18,20 @@
   (fn []
     [:div.results-box]))
 
-(a/start-animation-loop)
+(defn animation-toggle []
+  [:button.animation-toggle
+   {:on-click #(dispatch [:animation/toggle-animation])}
+   (str "Toggle animation " (if @(subscribe [:animation/enabled?]) "off" "on"))])
+
+(defn color-change []
+  [:button.animation-toggle
+   {:on-click #(dispatch [:color-event :black])}
+   "Black!"])
 
 (defn main-panel []
   (fn []
     [:div.main-wrapper
+     {:class (when (= @(subscribe [:background-color]) :black) "black-background")}
      [aw/animation-header :header]
      [:div.main
       [:h1 "Breakpoint Giphy"]
@@ -38,5 +47,6 @@
         "Load random!"]]
       [results-box]]
      [aw/animation-header :footer]
-     [:div.animation-toggle-container
-      [aw/animation-toggle]]]))
+     [:div.toggle-button-container
+      [animation-toggle]
+      [color-change]]]))

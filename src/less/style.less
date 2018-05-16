@@ -1,15 +1,3 @@
-@color-primary-0: #AA3939;	/* Main Primary color */
-@color-primary-1: #FF9494;
-@color-primary-2: #FF9494;
-@color-primary-3: #670000;
-@color-primary-4: #1C0202;
-
-@color-complement-0: #2D882D;	/* Main Complement color */
-@color-complement-1: #8BEE8B;
-@color-complement-2: #88EA88;
-@color-complement-3: #005300;
-@color-complement-4: #021602;
-
 @color-white: #FFF;
 @color-background: #0DABFF;
 @color-button-background: #FF4AB5;
@@ -33,12 +21,6 @@ h1 {
   color: @color-white;
 }
 
-h2 {
-  text-align: center;
-  font-size: 35px;
-  color: @color-white;
-}
-
 button {
   background-color: @color-button-background;
   color: @color-white;
@@ -46,6 +28,7 @@ button {
   font-size: 20px;
   padding: 12px 15px 13px;
   box-shadow: 5px 5px 0 0 hsla(0,0%,7%,.3);
+  cursor: pointer;
 }
 
 .input-container {
@@ -123,6 +106,11 @@ button {
   position: relative;
 }
 
+.main-wrapper.black-background .pixel-cutout,
+.main-wrapper.black-background .main {
+  background-color: #000;
+}
+
 .cutout-header-container {
   display: flex;
   flex-flow: row nowrap;
@@ -193,7 +181,7 @@ button {
   transition-delay: .5s;
 }
 
-.animation-toggle-container {
+.toggle-button-container {
   display: flex;
   justify-content: flex-end;
   position: absolute;

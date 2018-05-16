@@ -6,7 +6,8 @@
             [breakpoint-app.views :as views]
             [breakpoint-app.config :as config]
             [breakpoint-app.animation.animation-events]
-            [breakpoint-app.animation.animation-subs]))
+            [breakpoint-app.animation.animation-subs]
+            [breakpoint-app.animation.animation-core :as a]))
 
 (enable-console-print!)
 
@@ -22,6 +23,7 @@
 
 (defn render []
   (re-frame/dispatch-sync [:initialize-db])
-  (re-frame/dispatch [:load-random-giphy])
+  ;(re-frame/dispatch [:load-random-giphy])
   (dev-setup)
-  (mount-root))
+  (mount-root)
+  (a/start-animation-loop))
