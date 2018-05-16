@@ -4,7 +4,7 @@
 (defn animation-header [type]
   (let [tilt-direction (re-frame/subscribe [:animation/tilt-direction])
         enabled?       (re-frame/subscribe [:animation/enabled?])]
-    (fn []
+    (fn [type]
       [:div
        {:class (if (= type :header)
                  "cutout-header-container"
