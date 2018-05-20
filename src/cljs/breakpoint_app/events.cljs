@@ -14,15 +14,22 @@
   (fn [db [_ color]]
     (assoc db :background-color color)))
 
-;; (reg-event-fx
-;;   :load-random-giphy
-;;   (fn [{:keys [db]} _]
-;;     {:http-xhrio {:method          :get
-;;                   :uri             "/api/random"
-;;                   :response-format (ajax/json-response-format {:keywords? true})
-;;                   :on-success      [:add-images]}
-;;      :db         db}))
+;; ;Used in ex. 2:
+(reg-event-fx
+  :load-random
+  (fn [{:keys [db]} _]
+    {:http-xhrio {:method          :get
+                  :uri             "/api/random"
+                  :response-format (ajax/json-response-format {:keywords? true})
+                  :on-success      [:add-images]}
+     :db         db}))
 
+(reg-event-db
+  :add-images
+  (fn [db [_ images]]
+    (update db :images into images)))
+
+;; ;Used in ex. 3:
 ;; (defonce debounces (atom {}))
 ;; (re-frame/reg-fx
 ;;   :dispatch-debounced

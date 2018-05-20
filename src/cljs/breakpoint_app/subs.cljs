@@ -7,9 +7,7 @@
   (fn [db]
     (:background-color db)))
 
-;;
-;; (re-frame/reg-sub
-;;  :images
-;;  (fn [db]
-;;    [] ; this should return something instead
-;;    ))
+(re-frame/reg-sub
+ :images
+ (fn [db]
+   (:images db)))

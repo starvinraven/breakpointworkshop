@@ -12,7 +12,7 @@ Quick run instructions:
 
 ## Examples / Exercises
 
-### Example 1: Toggle the animation on/off with a button click
+### Demo 1: Toggle the animation on/off with a button click
 
 ### Exercise 1: Toggle the background color with a button click
 
@@ -24,6 +24,18 @@ This should give you an idea of how the unidirectional data flow in re-frame wor
 * In order to refer to the app-db, and the color value therein, we must create a subscription. Subscriptions are used to access the app-db and their values will change whenever the app-db does. We will add a subscription in subs.cljs using the `re-frame.core/reg-sub` function. The usage looks much like `reg-event-db`: the parameters are the subscription's name (a keyword) and a function that receives the app-db map and should return data that is derived from the app-db. In our case, we just need to access the map value we just added: `(reg-sub :background-color (fn [db] (:background-color db)))`.
 * Now we have access to the color, and just need to use it in our view. We have the necessary styles in place, so we can just set the `.black-background` style to the `.main-wrapper` div. To subscribe to the subscription created above, use the `re-frame.core/subscribe` function, providing the subscription name as a parameter. It will return the subscription, but you will need to dereference the subscription to get the contained value: `@(subscribe [:background-color])`. To put it all together, add a properties map to the `.main-wrapper` div (as its first element), and use the subscription: `{:class (when (= @(subscribe [:background-color]) :black) "black-background")}`.
 * This will only allow you to set the background to black! How about making the button a toggle, or adding another button for the sky blue background?
+
+### Exercise 2: Implement the 'Random Giphy' button.
+
+This involves side-effectful event handlers — the backend API has been provided for you.
+
+* Again, the "Load random" button needs to dispatch an event.
+* We also need to create a handler for the event. This time we will need to do an AJAX call to the REST API, so it's a bit different from before. To help you along, we have provided a handler in events.cljs, which has been commented out. Un-commenting it should be enough for now (just note that you have matching event names in the dispatch and handler.)
+* The handler has an `on-success` property, which is another dispatch, so we need to create a handler for that as well. Implement it using `reg-event-db`. The handler function will receive the JSON response as a parameter, so you can access it just like the `color` parameter in Ex. 1. The response contains a vector of images that should be appended to the `:images` entry in the app-db. You can do this in a few ways using `update`, the shortest probably being the function `into`, or a combination of `conj` and `flatten`.
+* Next, create a subscription for the images. A stub is included and commented out in subs.cljs.
+* To complete the final step of rendering the images, see the function `results-box` in views.cljs. In order to render an image, you can use the provided function `results-item` which takes one image as a parameter. Put the list of images inside `[:div.results-box]`, where you can use the `map` function to turn the list of image data (accessed with `@(subscribe [:the-subscription-you-just-created])`) into images.
+* Once you get everything working, you will see some React warnings to the effect of `Every element in a seq should have a unique :key`. You can do this by adding the `:key` property to the outer div that the function `results-item` returns, with something unique as the value.
+* If you have time to spare, how adding about YET ANOTHER button, which clears the list of images?
 
 ## Development
 

@@ -5,6 +5,7 @@
 
 (defn- results-item [image]
   [:div.results-item
+   {:key (:id image)}
    [:div.results-item-header
     [:i.medium.material-icons.remove-button
      {:on-click #(println "remove")}
@@ -16,7 +17,7 @@
 
 (defn- results-box []
   (fn []
-    [:div.results-box]))
+    [:div.results-box (map results-item @(subscribe [:images]))]))
 
 (defn animation-toggle []
   [:button.animation-toggle
@@ -43,7 +44,7 @@
          :on-change   #(println "text input value" (.-value (.-target %)))}]]
       [:div.input-container
        [:button.random-button
-        {:on-click #(println "click!")}
+        {:on-click #(dispatch [:load-random])}
         "Load random!"]]
       [results-box]]
      [aw/animation-header :footer]
