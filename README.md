@@ -37,6 +37,51 @@ This involves side-effectful event handlers — the backend API has been provide
 * Once you get everything working, you will see some React warnings to the effect of `Every element in a seq should have a unique :key`. You can do this by adding the `:key` property to the outer div that the function `results-item` returns, with something unique as the value.
 * If you have time to spare, how adding about YET ANOTHER button, which clears the list of images?
 
+### Exercise 3: Text search
+
+Here, you get to implement the entire end-to-end functionality.
+
+* The text field currently console logs whatever is typed to it. Make it a - you guessed it - dispatch instead.
+* Create a subscription using `reg-event-fx`. For now, only implement the app-db update with something like:
+
+```clojure
+(reg-event-fx
+  :update-search
+  (fn [{:keys [db]} [_ query-text]]
+    {:db (assoc db :search-input query-text)}))
+```
+
+.. which could be achieved by using `reg-event-db`, for now.
+
+* Also change the `value` entry for the text field in views.cljs — you probably noticed it has been hard-coded to be the empty string. Instead, subscribe to the actual value that is now in the app-db.
+* To create a HTTP request, add a `:http` key to the `:update-search` handler function's return value. The format can be copied from the `:load-random` handler, but the URI should be constructed to be something like: `/api/search?q=searchterm` (see the `str` function for help).
+* To create a corresponding backend endpoint, see routes.clj in `/src/clj/breakpoint_app`. Use the existing `/api/random` endpoint definition to create a new one, with the following changes:
+  * The path should be `/api/search`
+  * Add a query parameter definition: `:query-params [q :- String]` after the `:return` definition.
+  * In the body, call the search function: `(ok (giphy/search q))`.
+* Now see giphy.clj and implement the function `search`. Again, you can copy-paste the `random` definition, but you will have to change the parameters to the function `query-url`. The first one should be `search` and the second a map contains query parameters to the Giphy API request. The text string to search for should be named `q`. You can try the `query-url` function in your REPL to ensure you've got it right.
+
+Since we are using the existing `:add-images` handler to deal with the API response, the text search should now be working! However, performing the search after every keypress is rather dirty. We can fix this by only firing the search after there has been a short time of inactivity in the text field:
+
+* We have a commented-out `dispatch-debounced` effects hander registration in events.cljs. Check it out to see how to add new types of handlers and uncomment it!
+* In the `:update-search` handler, remove (but don't throw away!) the `:http-xhrio` definition in the returned map.
+* Replace it with a `:dispatch-debounced` entry. The value should be a map, which is passed to the function in the `dispatch-debounced` fx handler. In its implementation, you can see that the keys `:id` (any keyword) `:dispatch` (a dispatch name like `[:do-search]`) and `:timeout` (in milliseconds) should be included, so do so.
+* Add the handler for the dispatch you just created. It should be of the `reg-event-fx` type and contain the `:http-xhrio` definition you removed a few steps earlier. Note that you also have to dig out the query text from the app-db.
+
+After this you should experience a much smoother text search!
+
+### Exercise 4: Remove image
+
+Clicking the remove button on image cards should remove the image from the app-db and view.
+
+### Exercise 5: Add to saved images
+
+Add a "saved images" element, to which you can images with the 'plus' button.
+
+### Exercise 6: Persist liked images to backend.
+
+Add a button that pushes liked images to the backend, and re-populates the saved image element on page load. A simple `atom` can serve as your database in the backend.
+
 ## Development
 
 Open a terminal and type `lein repl` to start a Clojure REPL
