@@ -33,19 +33,26 @@
   :update-search
   (fn [{:keys [db]} [_ query-text]]
     {:db (assoc db :search-input query-text)
-     :http-xhrio {:method          :get
-                  :uri             (str "/api/search?q=" query-text)
+     :dispatch-debounced {:id :search
+                          :dispatch [:load-images]
+                          :timeout 500}}))
+
+(reg-event-fx
+  :load-images
+  (fn [{:keys [db]} _]
+    {:http-xhrio {:method          :get
+                  :uri             (str "/api/search?q=" (:search-input db))
                   :response-format (ajax/json-response-format {:keywords? true})
                   :on-success      [:add-images]}}))
 
-;; ;Used in ex. 3:
-;; (defonce debounces (atom {}))
-;; (re-frame/reg-fx
-;;   :dispatch-debounced
-;;   (fn [{:keys [id dispatch timeout]}]
-;;     (js/clearTimeout (@debounces id))
-;;     (swap! debounces assoc id (js/setTimeout
-;;                                 (fn []
-;;                                   (re-frame/dispatch dispatch)
-;;                                   (swap! debounces dissoc id))
-;;                                 timeout))))
+(defonce debounces (atom {}))
+
+(re-frame/reg-fx
+  :dispatch-debounced
+  (fn [{:keys [id dispatch timeout]}]
+    (js/clearTimeout (@debounces id))
+    (swap! debounces assoc id (js/setTimeout
+                                (fn []
+                                  (re-frame/dispatch dispatch)
+                                  (swap! debounces dissoc id))
+                                timeout))))
