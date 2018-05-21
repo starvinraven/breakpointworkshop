@@ -20,9 +20,4 @@
              :return [schema/image]
              (ok (giphy/random)))
 
-    (api/GET "/api/search" []
-             :query-params [q :- String]
-             :return [schema/image]
-             (ok (giphy/search q)))
-
     (resources "/")))

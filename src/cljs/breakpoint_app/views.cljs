@@ -5,7 +5,6 @@
 
 (defn- results-item [image]
   [:div.results-item
-   {:key (:id image)} ; remove when cleaning
    [:div.results-item-header
     [:i.medium.material-icons.remove-button
      {:on-click #(println "remove")}
@@ -16,23 +15,14 @@
    [:img {:src (:url image)}]])
 
 (defn- results-box []
-  (fn []
-    [:div.results-box (map results-item @(subscribe [:images]))]))
+  [:div.results-box])
 
 (defn animation-toggle []
-  [:button.animation-toggle
-   {:on-click #(dispatch [:animation/toggle-animation])}
-   (str "Toggle animation " (if @(subscribe [:animation/enabled?]) "off" "on"))])
-
-(defn color-change []
-  [:button.animation-toggle
-   {:on-click #(dispatch [:color-event :black])}
-   "Black!"])
+  [:button.animation-toggle])
 
 (defn main-panel []
   (fn []
     [:div.main-wrapper
-     {:class (when (= @(subscribe [:background-color]) :black) "black-background")}
      [aw/animation-header :header]
      [:div.main
       [:h1 "Breakpoint Giphy"]
@@ -40,14 +30,14 @@
        [:input.search-input
         {:type        "text"
          :placeholder "This does nothing for now :("
-         :value       @(subscribe [:search-input])
-         :on-change   #(dispatch [:update-search (.-value (.-target %))])}]]
+         :value       ""
+         :on-change   #(println "input changed" (.-value (.-target %)))}]]
       [:div.input-container
        [:button.random-button
-        {:on-click #(dispatch [:load-random])}
+        {:on-click #(println "click")}
         "Load random!"]]
       [results-box]]
      [aw/animation-header :footer]
      [:div.toggle-button-container
-      [animation-toggle]
-      [color-change]]]))
+      ;[animation-toggle]
+      ]]))

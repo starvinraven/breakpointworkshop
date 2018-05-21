@@ -46,12 +46,6 @@
         json
         [json]))))
 
-(defn search
-  [query-text]
-  (-> (query-url "search" {:q query-text})
-      (http/get)
-      (parse-data)))
-
 (defn random
   []
   (-> (query-url "random")

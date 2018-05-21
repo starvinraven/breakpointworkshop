@@ -23,7 +23,6 @@
 
 (defn render []
   (re-frame/dispatch-sync [:initialize-db])
-  ;(re-frame/dispatch [:load-random-giphy])
   (dev-setup)
   (mount-root)
   (a/start-animation-loop))

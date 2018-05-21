@@ -9,7 +9,3 @@
                                                :left :right
                                                :right :left)))
       db)))
-
-(re-frame/reg-event-db :animation/toggle-animation
-  (fn [db]
-    (update db :animation/enabled? not)))

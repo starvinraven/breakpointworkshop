@@ -14,6 +14,8 @@ Quick run instructions:
 
 ### Demo 1: Toggle the animation on/off with a button click
 
+We will demonstrate how to add a simple button to update the application state.
+
 ### Exercise 1: Toggle the background color with a button click
 
 This should give you an idea of how the unidirectional data flow in re-frame works.
