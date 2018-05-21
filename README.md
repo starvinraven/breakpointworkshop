@@ -59,6 +59,7 @@ Here, you get to implement the entire end-to-end functionality.
   * The path should be `/api/search`
   * Add a query parameter definition: `:query-params [q :- String]` after the `:return` definition.
   * In the body, call the search function: `(ok (giphy/search q))`.
+  * NB: you have to manually issue the `(reset)` command in the clj REPL after changing the route definitions!
 * Now see giphy.clj and implement the function `search`. Again, you can copy-paste the `random` definition, but you will have to change the parameters to the function `query-url`. The first one should be `search` and the second a map contains query parameters to the Giphy API request. The text string to search for should be named `q`. You can try the `query-url` function in your REPL to ensure you've got it right.
 
 Since we are using the existing `:add-images` handler to deal with the API response, the text search should now be working! However, performing the search after every keypress is rather dirty. We can fix this by only firing the search after there has been a short time of inactivity in the text field:

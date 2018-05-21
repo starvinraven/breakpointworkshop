@@ -7,7 +7,12 @@
   (fn [db]
     (:background-color db)))
 
-(re-frame/reg-sub
+(reg-sub
  :images
  (fn [db]
    (:images db)))
+
+(reg-sub
+  :search-input
+  (fn [db]
+    (:search-input db)))

@@ -29,6 +29,15 @@
   (fn [db [_ images]]
     (update db :images into images)))
 
+(reg-event-fx
+  :update-search
+  (fn [{:keys [db]} [_ query-text]]
+    {:db (assoc db :search-input query-text)
+     :http-xhrio {:method          :get
+                  :uri             (str "/api/search?q=" query-text)
+                  :response-format (ajax/json-response-format {:keywords? true})
+                  :on-success      [:add-images]}}))
+
 ;; ;Used in ex. 3:
 ;; (defonce debounces (atom {}))
 ;; (re-frame/reg-fx

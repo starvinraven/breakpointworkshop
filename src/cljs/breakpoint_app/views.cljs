@@ -5,7 +5,7 @@
 
 (defn- results-item [image]
   [:div.results-item
-   {:key (:id image)}
+   {:key (:id image)} ; remove when cleaning
    [:div.results-item-header
     [:i.medium.material-icons.remove-button
      {:on-click #(println "remove")}
@@ -40,8 +40,8 @@
        [:input.search-input
         {:type        "text"
          :placeholder "This does nothing for now :("
-         :value       ""
-         :on-change   #(println "text input value" (.-value (.-target %)))}]]
+         :value       @(subscribe [:search-input])
+         :on-change   #(dispatch [:update-search (.-value (.-target %))])}]]
       [:div.input-container
        [:button.random-button
         {:on-click #(dispatch [:load-random])}
