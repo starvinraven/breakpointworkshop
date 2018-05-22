@@ -4,7 +4,3 @@
 (re-frame/reg-sub :animation/tilt-direction
   (fn [db]
     (:animation/tilt-direction db)))
-
-(re-frame/reg-sub :animation/enabled?
-  (fn [db]
-    (:animation/enabled? db)))

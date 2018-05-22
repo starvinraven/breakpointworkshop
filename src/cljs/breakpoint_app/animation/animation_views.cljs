@@ -1,9 +1,8 @@
 (ns breakpoint-app.animation.animation-views
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame :refer [subscribe]]))
 
 (defn animation-header [type]
-  (let [tilt-direction (re-frame/subscribe [:animation/tilt-direction])
-        enabled?       (re-frame/subscribe [:animation/enabled?])]
+  (let [tilt-direction (subscribe [:animation/tilt-direction])]
     (fn [type]
       [:div
        {:class (if (= type :header)
@@ -13,11 +12,6 @@
             (map (fn [idx]
                    [:div.pixel-cutout
                     {:key   (str "pixel-cutout--" idx)
-                     :class (when @enabled?
+                     :class (when true
                               (str "pixel-cutout--" idx "-" (name @tilt-direction)))}]))
             (doall))])))
-
-(defn animation-toggle []
-  [:button.animation-toggle
-   {:on-click #(re-frame/dispatch [:animation/toggle-animation])}
-   "Toggle animation"])
